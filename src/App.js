@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Suspense } from 'react'
+import { HashRouter, Route, Routes, BrowserRouter } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const loading = (
+  <div className="pt-3 text-center">
+    <div className="sk-spinner sk-spinner-pulse"></div>
+  </div>
+)
+const Index = React.lazy(() => import('./pages/index'))
+const About =React.lazy(()=> import('./pages/about'))
+const Service =React.lazy(()=> import('./pages/service'))
+const Gallery =React.lazy(()=> import('./pages/gallery'))
+const Contact =React.lazy(()=> import('./pages/contact'))
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Suspense fallback={loading}>
+          <Routes>
+            <Route path="/" element={<Index />}/>
+            <Route path="/about" element={<About />}/>
+            <Route path="/service" element={<Service />}/>
+            <Route path="/gallery" element={<Gallery />}/>
+            <Route path="/contact" element={<Contact />}/>
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    )
+  }
 }
 
-export default App;
+export default App
